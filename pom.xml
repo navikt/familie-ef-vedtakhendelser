@@ -44,7 +44,7 @@
         <wiremock.version>2.35.0</wiremock.version>
         <mockk.version>1.13.2</mockk.version>
         <testcontainers.version>1.17.6</testcontainers.version>
-        <start-class>no.nav.familie.ef.vedtakhendelse.Application</start-class>
+        <start-class>no.nav.familie.ef.vedtakhendelse.ApplicationKt</start-class>
     </properties>
     <dependencies>
         <dependency>
