@@ -1,0 +1,56 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: familie-ef-vedtakhendelse
+  namespace: teamfamilie
+  labels:
+    team: teamfamilie
+spec:
+  image: {{ image }}
+  ingresses:
+    - https://familie-ef-vedtakhendelse.intern.nav.no
+  liveness:
+    path: /internal/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  readiness:
+    path: /internal/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  prometheus:
+    enabled: true
+    path: /internal/prometheus
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      memory: 1024Mi
+      cpu: 1500m
+    requests:
+      memory: 512Mi
+      cpu: 500m
+  secureLogs:
+    enabled: true
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: prod
+  azure:
+    application:
+      enabled: true
+  accessPolicy:
+    outbound:
+      rules:
+        - application: familie-ef-sak
+  kafka:
+    pool: nav-prod
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_12 # IF This is changed, all data will be lost. Read on nais.io how to upgrade
+        databases:
+          - name: familie-ef-vedtakhendelse
+            envVarPrefix: DB
+            diskAutoresize: true
+            tier: db-g1-small
+            cascadingDelete: false
