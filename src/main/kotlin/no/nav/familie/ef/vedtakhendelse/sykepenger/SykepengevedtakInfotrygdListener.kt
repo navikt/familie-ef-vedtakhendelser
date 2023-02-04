@@ -24,9 +24,10 @@ class SykepengevedtakInfotrygdListener(
         topics = ["aap.sykepengedager.infotrygd.v1"],
         autoStartup = "false",
     )
-    fun listen(@Payload sykepengevedtakInfotrygdHendelse: SykepengevedtakInfotrygd) {
+    fun listen(@Payload sykepengevedtakInfotrygd: SykepengevedtakInfotrygd) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
+            sykepengevedtakService.handleSykepengevedtakInfotrygd(sykepengevedtakInfotrygd)
             logger.info("Leser sykepengevedtak fra infotrygd")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse fra infotrygd")
