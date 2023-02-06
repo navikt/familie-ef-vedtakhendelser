@@ -1,0 +1,78 @@
+application:
+  name: familie-ef-vedtakhendelse
+server:
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: familie-ef-vedtakhendelse
+  jackson:
+    mapper:
+      accept-case-insensitive-properties: true
+    deserialization:
+      accept-single-value-as-array: true
+      fail-on-unknown-properties: true
+    serialization:
+      write-empty-json-arrays: false
+      fail-on-empty-beans: false
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS}
+    properties:
+      schema.registry.url: ${KAFKA_SCHEMA_REGISTRY}
+      basic.auth.credentials.source: USER_INFO
+      basic.auth.user.info: ${KAFKA_SCHEMA_REGISTRY_USER}:${KAFKA_SCHEMA_REGISTRY_PASSWORD}
+      security:
+        protocol: SSL
+      ssl:
+        keystore:
+          type: PKCS12
+          location: ${KAFKA_KEYSTORE_PATH}
+          password: ${KAFKA_CREDSTORE_PASSWORD}
+        truststore:
+          type: PKCS12
+          location: ${KAFKA_TRUSTSTORE_PATH}
+          password: ${KAFKA_CREDSTORE_PASSWORD}
+
+no.nav.security.jwt:
+  issuer:
+    azuread:
+      discoveryurl: ${AZURE_APP_WELL_KNOWN_URL}
+      accepted_audience: ${AZURE_APP_CLIENT_ID}
+  client:
+    registration:
+      ef-sak-clientcredentials:
+        resource-url: ${EF_SAK_URL}
+        token-endpoint-url: ${AZURE_OPENID_CONFIG_TOKEN_ENDPOINT}
+        grant-type: client_credentials
+        scope: ${EF_SAK_SCOPE}
+        authentication:
+          client-id: ${AZURE_APP_CLIENT_ID}
+          client-secret: ${AZURE_APP_CLIENT_SECRET}
+          client-auth-method: client_secret_basic
+      ef-sak:
+        resource-url: ${EF_SAK_URL}
+        token-endpoint-url: ${AZURE_OPENID_CONFIG_TOKEN_ENDPOINT}
+        grant-type: urn:ietf:params:oauth:grant-type:jwt-bearer
+        scope: ${EF_SAK_SCOPE}
+        authentication:
+          client-id: ${AZURE_APP_CLIENT_ID}
+          client-secret: ${AZURE_APP_CLIENT_SECRET}
+          client-auth-method: client_secret_basic
+
+
+management:
+  endpoint.health.show-details: always
+  endpoints.web:
+    exposure.include: info, health, metrics, prometheus, mappings
+    base-path: "/internal"
+    path-mapping:
+      info: "isAlive"
+  metrics.export.prometheus.enabled: true
+  metrics.web.server.auto-time-requests: true
+
+DEPLOY_ENV: prod
+
+EF_SAK_URL: http://familie-ef-sak
+EF_SAK_SCOPE: api://${DEPLOY_ENV}-gcp.teamfamilie.familie-ef-sak/.default
