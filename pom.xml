@@ -8,10 +8,11 @@
         <version>2.7.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>no.nav.familie.ef</groupId>
     <artifactId>familie-ef-vedtakhendelse</artifactId>
     <version>${revision}${sha1}${changelist}</version>
-    <name>ef-vedtakhendelse</name>
+
     <description>Lytter på vedtakhendelser fra andre ytelser på forskjellige topics og sender videre til en topic</description>
 
     <repositories>
@@ -26,7 +27,6 @@
     </repositories>
     <properties>
         <revision>1.0</revision>
-        <sha1/>
         <changelist>-SNAPSHOT</changelist>
         <java.version>17</java.version>
         <kotlin.version>1.8.0</kotlin.version>
@@ -36,7 +36,6 @@
         <graphql-kotlin-maven-plugin.version>6.3.3</graphql-kotlin-maven-plugin.version>
         <graphql-kotlin.version>3.5.0</graphql-kotlin.version>
         <ktlint-maven-plugin.version>1.7.0</ktlint-maven-plugin.version>
-        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <kontrakter.version>2.0_20221122175326_a5d45ad</kontrakter.version>
         <felles.version>1.20221101085322_cc4d556</felles.version>
         <token-validation-spring-test.version>2.1.6</token-validation-spring-test.version> <!-- Denne burde være samme versjon som i felles -->
@@ -161,9 +160,9 @@
     </dependencies>
 
     <build>
-
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -191,38 +190,11 @@
                     <fork>true</fork>
                     <mainClass>${start-class}</mainClass>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <mainClass>${start-class}</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M8</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

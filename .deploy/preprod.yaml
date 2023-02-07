@@ -43,12 +43,11 @@ spec:
     outbound:
       rules:
         - application: familie-ef-sak
-        - application: familie-ef-sak-lokal
   kafka:
     pool: nav-dev
   gcp:
     sqlInstances:
-      - type: POSTGRES_12 # IF This is changed, all data will be lost. Read on nais.io how to upgrade
+      - type: POSTGRES_14 # IF This is changed, all data will be lost. Read on nais.io how to upgrade
         databases:
           - name: familie-ef-vedtakhendelse
             envVarPrefix: DB
