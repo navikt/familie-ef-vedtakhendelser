@@ -15,11 +15,11 @@ data class Sykepengevedtak(
 data class SykepengevedtakInfotrygd(
     @JsonProperty("UTBET_TOM")
     @JsonAlias("utbet_TOM")
-    val UTBET_TOM: String?,
+    val utbetalingTom: String?,
     @JsonProperty("MAX_DATO")
     @JsonAlias("max_DATO")
-    val MAX_DATO: String?,
+    val maxDato: String?,
     @JsonProperty("F_NR")
     @JsonAlias("f_NR")
-    val F_NR: String,
+    val fødselsnummer: String,
 )
