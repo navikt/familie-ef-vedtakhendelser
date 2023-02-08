@@ -12,6 +12,6 @@ class SykepengevedtakService(val vedtakKafkaProducer: VedtakKafkaProducer) {
     }
 
     fun handleSykepengevedtakInfotrygd(sykepengevedtakInfotrygd: SykepengevedtakInfotrygd) {
-        vedtakKafkaProducer.sendVedtak(Vedtakhendelse(sykepengevedtakInfotrygd.F_NR, Ytelse.SYKEPENGER, sykepengevedtakInfotrygd.MAX_DATO))
+        vedtakKafkaProducer.sendVedtak(Vedtakhendelse(sykepengevedtakInfotrygd.fødselsnummer, Ytelse.SYKEPENGER, sykepengevedtakInfotrygd.maxDato))
     }
 }
