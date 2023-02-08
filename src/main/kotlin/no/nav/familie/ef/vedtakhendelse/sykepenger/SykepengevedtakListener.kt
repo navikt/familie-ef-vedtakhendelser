@@ -19,14 +19,15 @@ class SykepengevedtakListener(
     private val securelogger = LoggerFactory.getLogger("secureLogger")
 
     @KafkaListener(
-        id = "familie-ef-sykepengervedtak-listener",
+        id = "familie-ef-sykepengevedtak-listener",
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
         autoStartup = "false",
     )
-    fun listen(@Payload sykepengerVedtakhendelse: Sykepengevedtak) {
+    fun listen(@Payload sykepengevedtak: Sykepengevedtak) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
+            sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
             logger.info("Leser sykepengevedtak")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
