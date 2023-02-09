@@ -22,13 +22,18 @@ class SykepengevedtakListener(
         id = "familie-ef-sykepengevedtak-listener",
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
-        autoStartup = "false",
     )
     fun listen(@Payload sykepengevedtak: Sykepengevedtak) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
             sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
-            logger.info("Leser sykepengevedtak")
+            logger.info(
+                "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
+                    "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
+                    "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
+                    "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
+            )
+            securelogger.info("Leser sykepengevedtak for person med fnr: ${sykepengevedtak.fødselsnummer}")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
             throw e
