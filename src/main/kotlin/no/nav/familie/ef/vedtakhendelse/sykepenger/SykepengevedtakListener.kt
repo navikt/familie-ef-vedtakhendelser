@@ -33,7 +33,6 @@ class SykepengevedtakListener(
                     "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
                     "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
             )
-            securelogger.info("Leser sykepengevedtak for person med fnr: ${sykepengevedtak.fødselsnummer}")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
             throw e
