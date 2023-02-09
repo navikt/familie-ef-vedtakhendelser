@@ -1,7 +1,7 @@
 apiVersion: kafka.nais.io/v1
 kind: Topic
 metadata:
-  name: aapen-ensligforsorger-vedtakhendelse
+  name: privat-ensligforsorger-eksterne-vedtak
   namespace: teamfamilie
   labels:
     team: teamfamilie
