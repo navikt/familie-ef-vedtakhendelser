@@ -9,13 +9,14 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.listener.ConsumerSeekAware
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
 class SykepengevedtakListener(
     private val sykepengevedtakService: SykepengevedtakService,
-) {
+): ConsumerSeekAware {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val securelogger = LoggerFactory.getLogger("secureLogger")
@@ -46,18 +47,16 @@ class SykepengevedtakListener(
         }
     }
 
-    /* -- Behold denne utkommenterte koden! Kjekt å kunne lese fra start ved behov for debugging i preprod
+
     override fun onPartitionsAssigned(
         assignments: MutableMap<org.apache.kafka.common.TopicPartition, Long>,
         callback: ConsumerSeekAware.ConsumerSeekCallback
     ) {
-        logger.info("overrided onPartitionsAssigned seekToBeginning")
+        logger.info("overrided onPartitionsAssigned")
         assignments.keys.stream()
-            .filter { it.topic() == "aapen-person-pdl-leesah-v1" }
+            .filter { it.topic() == "vedtak" }
             .forEach {
-                callback.seekToEnd("aapen-person-pdl-leesah-v1", it.partition())
-                // callback.seekToBeginning("aapen-person-pdl-leesah-v1", it.partition())
+                callback.seekRelative("vedtak", it.partition(), -10L, false)
             }
     }
-     */
 }
