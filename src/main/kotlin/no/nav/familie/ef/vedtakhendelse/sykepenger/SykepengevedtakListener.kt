@@ -16,7 +16,7 @@ import java.util.*
 @Component
 class SykepengevedtakListener(
     private val sykepengevedtakService: SykepengevedtakService,
-): ConsumerSeekAware {
+) : ConsumerSeekAware {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val securelogger = LoggerFactory.getLogger("secureLogger")
@@ -47,10 +47,9 @@ class SykepengevedtakListener(
         }
     }
 
-
     override fun onPartitionsAssigned(
         assignments: MutableMap<org.apache.kafka.common.TopicPartition, Long>,
-        callback: ConsumerSeekAware.ConsumerSeekCallback
+        callback: ConsumerSeekAware.ConsumerSeekCallback,
     ) {
         logger.info("overrided onPartitionsAssigned")
         assignments.keys.stream()

@@ -17,15 +17,14 @@ class ForeldrepengevedtakListener(val foreldrepengevedtakService: Foreldrepengev
         id = "familie-ef-foreldrepengevedtak-listener",
         groupId = "familie-ef-foreldrepengevedtak",
         topics = ["teamforeldrepenger.familie-vedtakfattet-v1"],
-        autoStartup = "false",
     )
     fun listen(@Payload foreldrepengevedtak: YtelseV1) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
             foreldrepengevedtakService.handleForeldrepengevedtak(foreldrepengevedtak)
-            logger.info("Leser sykepengevedtak")
+            logger.info("Leser foreldrepengevedtak")
         } catch (e: Exception) {
-            logger.error("Feil ved håndtering av sykepengehendelse")
+            logger.error("Feil ved håndtering av foreldepengehendelse")
             throw e
         } finally {
             MDC.remove(MDCConstants.MDC_CALL_ID)
