@@ -24,6 +24,8 @@ class SykepengevedtakListener(
         id = "familie-ef-sykepengevedtak-listener",
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
+        containerFactory = "kafkaAivenVedtakhendelseListenerContainerFactory",
+        autoStartup = "true",
     )
     fun listen(consumerRecord: ConsumerRecord<String, String>) {
         try {

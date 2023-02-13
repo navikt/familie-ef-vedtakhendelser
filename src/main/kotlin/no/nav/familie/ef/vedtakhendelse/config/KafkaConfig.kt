@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class KafkaConfig {
 
     @Bean
-    fun kafkaAivenPersonhendelseListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler):
+    fun kafkaAivenVedtakhendelseListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler):
         ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = DefaultKafkaConsumerFactory(properties.buildConsumerProperties())
