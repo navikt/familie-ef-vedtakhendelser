@@ -21,6 +21,7 @@ class SykepengevedtakListener(
 
     @KafkaListener(
         id = "familie-ef-sykepengevedtak-listener",
+        groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
         containerFactory = "sykepengerListenerContainerFactory",
     )
