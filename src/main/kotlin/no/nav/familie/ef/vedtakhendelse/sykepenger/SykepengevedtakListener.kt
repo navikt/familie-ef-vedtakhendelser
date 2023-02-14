@@ -1,8 +1,6 @@
-package main.kotlin.no.nav.familie.ef.vedtakhendelse.sykepenger
+package no.nav.familie.ef.vedtakhendelse.sykepenger
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.familie.ef.vedtakhendelse.sykepenger.Sykepengevedtak
-import no.nav.familie.ef.vedtakhendelse.sykepenger.SykepengevedtakService
 import no.nav.familie.kontrakter.felles.objectMapper
 import no.nav.familie.log.mdc.MDCConstants
 import org.apache.kafka.clients.consumer.ConsumerRecord

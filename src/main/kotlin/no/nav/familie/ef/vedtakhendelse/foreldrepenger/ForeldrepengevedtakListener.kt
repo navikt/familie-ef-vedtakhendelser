@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class ForeldrepengevedtakListener(val foreldrepengevedtakService: ForeldrepengevedtakService) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -21,7 +23,7 @@ class ForeldrepengevedtakListener(val foreldrepengevedtakService: Foreldrepengev
     fun listen(@Payload foreldrepengevedtak: YtelseV1) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
-            foreldrepengevedtakService.handleForeldrepengevedtak(foreldrepengevedtak)
+            //foreldrepengevedtakService.handleForeldrepengevedtak(foreldrepengevedtak)
             logger.info("Leser foreldrepengevedtak")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av foreldepengehendelse")
