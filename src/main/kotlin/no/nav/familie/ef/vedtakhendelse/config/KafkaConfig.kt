@@ -21,7 +21,7 @@ class KafkaConfig {
 
         val consumerConfig = mapOf(
             ConsumerConfig.GROUP_ID_CONFIG to "familie-ef-sykepengevedtak",
-            ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to true,
+            ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "1"
