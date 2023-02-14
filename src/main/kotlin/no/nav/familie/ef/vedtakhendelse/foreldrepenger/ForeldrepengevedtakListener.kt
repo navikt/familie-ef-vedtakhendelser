@@ -23,7 +23,7 @@ class ForeldrepengevedtakListener(val foreldrepengevedtakService: Foreldrepengev
     fun listen(@Payload foreldrepengevedtak: YtelseV1) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
-            //foreldrepengevedtakService.handleForeldrepengevedtak(foreldrepengevedtak)
+            // foreldrepengevedtakService.handleForeldrepengevedtak(foreldrepengevedtak)
             logger.info("Leser foreldrepengevedtak")
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av foreldepengehendelse")
