@@ -3,11 +3,11 @@ package no.nav.familie.ef.vedtakhendelse.sykepenger
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.familie.kontrakter.felles.objectMapper
 import no.nav.familie.log.mdc.MDCConstants
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.listener.ConsumerSeekAware
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -24,10 +24,10 @@ class SykepengevedtakListener(
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
     )
-    fun listen(consumerRecord: ConsumerRecord<String, String>) {
+    fun listen(@Payload sykepengevedtakJson: String) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
-            val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(consumerRecord.value())
+            val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
             sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
             logger.info(
                 "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
@@ -54,5 +54,4 @@ class SykepengevedtakListener(
                 callback.seekRelative("vedtak", it.partition(), -10L, false)
             }
     }
-
 }
