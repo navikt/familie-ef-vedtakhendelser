@@ -15,12 +15,11 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 class KafkaConfig {
 
     @Bean
-    fun sykepengerListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler):
+    fun kafkaListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler):
         ConcurrentKafkaListenerContainerFactory<String, String> {
         val props = properties.buildConsumerProperties()
         props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        props[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = DefaultKafkaConsumerFactory(props)
         factory.setCommonErrorHandler(kafkaErrorHandler)

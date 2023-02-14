@@ -21,6 +21,7 @@ class ForeldrepengevedtakListener(val foreldrepengevedtakService: Foreldrepengev
         id = "familie-ef-foreldrepengevedtak-listener",
         groupId = "familie-ef-foreldrepengevedtak",
         topics = ["teamforeldrepenger.familie-vedtakfattet-v1"],
+        containerFactory = "kafkaListenerContainerFactory"
     )
     fun listen(@Payload foreldrepengevedtakJson: String) {
         try {
