@@ -29,58 +29,11 @@ import java.time.temporal.ChronoUnit
 )
 class ApplicationConfig {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     @Bean
     fun kotlinModule(): KotlinModule = KotlinModule.Builder().build()
-
-    @Bean
-    fun logFilter(): FilterRegistrationBean<LogFilter> {
-        logger.info("Registering LogFilter filter")
-        val filterRegistration = FilterRegistrationBean<LogFilter>()
-        filterRegistration.filter = LogFilter()
-        filterRegistration.order = 1
-        return filterRegistration
-    }
-
-    @Bean
-    fun requestTimeFilter(): FilterRegistrationBean<RequestTimeFilter> {
-        logger.info("Registering RequestTimeFilter filter")
-        val filterRegistration = FilterRegistrationBean<RequestTimeFilter>()
-        filterRegistration.filter = RequestTimeFilter()
-        filterRegistration.order = 2
-        return filterRegistration
-    }
 
     @Bean
     @Primary
     fun objectMapper() = objectMapper
 
-    /**
-     * Overskrever felles sin som bruker proxy, som ikke skal brukes på gcp
-     */
-    @Bean
-    @Primary
-    fun restTemplateBuilder(): RestTemplateBuilder {
-        val jackson2HttpMessageConverter = MappingJackson2HttpMessageConverter(objectMapper)
-        return RestTemplateBuilder()
-            .setConnectTimeout(Duration.of(2, ChronoUnit.SECONDS))
-            .setReadTimeout(Duration.of(30, ChronoUnit.SECONDS))
-            .messageConverters(listOf(jackson2HttpMessageConverter) + RestTemplate().messageConverters)
-    }
-
-    /**
-     * Overskrever OAuth2HttpClient som settes opp i token-support som ikke kan få med objectMapper fra felles
-     * pga .setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE)
-     * og [OAuth2AccessTokenResponse] som burde settes med setters, då feltnavn heter noe annet enn feltet i json
-     */
-    @Bean
-    @Primary
-    fun oAuth2HttpClient(): OAuth2HttpClient {
-        return DefaultOAuth2HttpClient(
-            RestTemplateBuilder()
-                .setConnectTimeout(Duration.of(2, ChronoUnit.SECONDS))
-                .setReadTimeout(Duration.of(4, ChronoUnit.SECONDS)),
-        )
-    }
 }
