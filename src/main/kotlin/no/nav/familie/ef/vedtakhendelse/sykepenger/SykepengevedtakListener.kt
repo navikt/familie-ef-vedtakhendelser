@@ -23,7 +23,7 @@ class SykepengevedtakListener(
         id = "familie-ef-sykepengevedtak-listener",
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
-        containerFactory = "kafkaListenerContainerFactory"
+        containerFactory = "kafkaListenerContainerFactory",
     )
     fun listen(@Payload sykepengevedtakJson: String) {
         try {
