@@ -44,6 +44,7 @@ class SykepengevedtakListener(
         }
     }
 
+    /*
     override fun onPartitionsAssigned(
         assignments: MutableMap<org.apache.kafka.common.TopicPartition, Long>,
         callback: ConsumerSeekAware.ConsumerSeekCallback,
@@ -55,4 +56,5 @@ class SykepengevedtakListener(
                 callback.seekRelative("vedtak", it.partition(), -10L, false)
             }
     }
+     */
 }
