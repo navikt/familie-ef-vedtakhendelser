@@ -1,11 +1,12 @@
-package main.kotlin.no.nav.familie.ef.vedtakhendelse.sykepenger
+package no.nav.familie.ef.vedtakhendelse.sykepenger
 
-import no.nav.familie.ef.vedtakhendelse.sykepenger.Sykepengevedtak
-import no.nav.familie.ef.vedtakhendelse.sykepenger.SykepengevedtakService
+import com.fasterxml.jackson.module.kotlin.readValue
+import no.nav.familie.kontrakter.felles.objectMapper
 import no.nav.familie.log.mdc.MDCConstants
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.listener.ConsumerSeekAware
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
 @Component
 class SykepengevedtakListener(
     private val sykepengevedtakService: SykepengevedtakService,
-) {
+) : ConsumerSeekAware {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val securelogger = LoggerFactory.getLogger("secureLogger")
@@ -22,10 +23,12 @@ class SykepengevedtakListener(
         id = "familie-ef-sykepengevedtak-listener",
         groupId = "familie-ef-sykepengevedtak",
         topics = ["tbd.vedtak"],
+        containerFactory = "kafkaListenerContainerFactory",
     )
-    fun listen(@Payload sykepengevedtak: Sykepengevedtak) {
+    fun listen(@Payload sykepengevedtakJson: String) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
+            val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
             sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
             logger.info(
                 "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
@@ -41,17 +44,16 @@ class SykepengevedtakListener(
         }
     }
 
-    /* -- Behold denne utkommenterte koden! Kjekt å kunne lese fra start ved behov for debugging i preprod
+    /*
     override fun onPartitionsAssigned(
         assignments: MutableMap<org.apache.kafka.common.TopicPartition, Long>,
-        callback: ConsumerSeekAware.ConsumerSeekCallback
+        callback: ConsumerSeekAware.ConsumerSeekCallback,
     ) {
-        logger.info("overrided onPartitionsAssigned seekToBeginning")
+        logger.info("overrided onPartitionsAssigned")
         assignments.keys.stream()
-            .filter { it.topic() == "aapen-person-pdl-leesah-v1" }
+            .filter { it.topic() == "vedtak" }
             .forEach {
-                callback.seekToEnd("aapen-person-pdl-leesah-v1", it.partition())
-                // callback.seekToBeginning("aapen-person-pdl-leesah-v1", it.partition())
+                callback.seekRelative("vedtak", it.partition(), -10L, false)
             }
     }
      */

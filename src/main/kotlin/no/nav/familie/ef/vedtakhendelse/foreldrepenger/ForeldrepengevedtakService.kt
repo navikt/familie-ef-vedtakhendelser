@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class ForeldrepengevedtakService(val vedtakKafkaProducer: VedtakKafkaProducer) {
     fun handleForeldrepengevedtak(foreldrepengevedtak: YtelseV1) {
-        vedtakKafkaProducer.sendVedtak(Vedtakhendelse(foreldrepengevedtak.aktør.verdi, Ytelse.FORELDREPENGER, foreldrepengevedtak.periode.tom.toString()))
+        vedtakKafkaProducer.sendVedtak(Vedtakhendelse(foreldrepengevedtak.aktør.verdi, Ytelse.FORELDREPENGER, foreldrepengevedtak.periode.fom, foreldrepengevedtak.periode.tom))
     }
 }
 // Relevante ytelser: PLEIEPENGER_SYKT_BARN, PLEIEPENGER_NÆRSTÅENDE, FORELDREPENGER
