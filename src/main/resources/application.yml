@@ -82,4 +82,4 @@ DEPLOY_ENV: prod
 EF_SAK_URL: http://familie-ef-sak
 EF_SAK_SCOPE: api://${DEPLOY_ENV}-gcp.teamfamilie.familie-ef-sak/.default
 
-VEDTAK_TOPIC: privat-ensligforsorger-eksterne-vedtak
+VEDTAK_TOPIC: teamfamilie.privat-ensligforsorger-eksterne-vedtak
