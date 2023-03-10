@@ -8,7 +8,7 @@ metadata:
 spec:
   image: {{ image }}
   ingresses:
-    - https://familie-ef-vedtakhendelse.dev.intern.nav.no
+    - https://familie-ef-vedtakhendelse.intern.dev.nav.no
   liveness:
     path: /internal/isAlive
     initialDelay: 30
