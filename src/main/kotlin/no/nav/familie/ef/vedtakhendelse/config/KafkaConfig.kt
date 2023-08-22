@@ -18,8 +18,7 @@ import org.springframework.kafka.support.LoggingProducerListener
 class KafkaConfig {
 
     @Bean
-    fun kafkaListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler):
-        ConcurrentKafkaListenerContainerFactory<String, String> {
+    fun kafkaListenerContainerFactory(properties: KafkaProperties, kafkaErrorHandler: KafkaErrorHandler): ConcurrentKafkaListenerContainerFactory<String, String> {
         val props = properties.buildConsumerProperties()
         props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
