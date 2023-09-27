@@ -37,14 +37,13 @@ class SykepengevedtakListener(
                 sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
                 logger.info(
                     "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
-                            "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
-                            "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
-                            "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
+                        "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
+                        "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
+                        "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
                 )
             } else {
                 logger.info("Annullering hendelse lest. Ignoreres.")
             }
-
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
             throw e
