@@ -30,17 +30,21 @@ class SykepengevedtakListener(
     fun listen(@Payload sykepengevedtakJson: String, @Headers headers: MessageHeaders) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
-            val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
+
             securelogger.info("headers: ${headers.entries}")
             if (headers.any { it.key == "type" && it.value == "VedtakFattet" }) {
+                val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
                 sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
+                logger.info(
+                    "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
+                            "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
+                            "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
+                            "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
+                )
+            } else {
+                logger.info("Annullering hendelse lest. Ignoreres.")
             }
-            logger.info(
-                "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
-                    "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
-                    "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
-                    "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
-            )
+
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
             throw e
