@@ -31,6 +31,7 @@ class SykepengevedtakListener(
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
             val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
+            securelogger.info("headers: ${headers.entries}")
             if (headers.any { it.key == "type" && it.value == "VedtakFattet" }) {
                 sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
             }
