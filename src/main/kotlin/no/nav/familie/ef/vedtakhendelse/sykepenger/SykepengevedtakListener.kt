@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.listener.ConsumerSeekAware
+import org.springframework.messaging.MessageHeaders
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
@@ -26,7 +27,7 @@ class SykepengevedtakListener(
         topics = ["tbd.vedtak"],
         containerFactory = "kafkaListenerContainerFactory",
     )
-    fun listen(@Payload sykepengevedtakJson: String, @Headers headers: Map<String, String>) {
+    fun listen(@Payload sykepengevedtakJson: String, @Headers headers: MessageHeaders) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
             val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
