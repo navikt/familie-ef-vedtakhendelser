@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.listener.ConsumerSeekAware
+import org.springframework.messaging.MessageHeaders
+import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import java.util.*
@@ -25,17 +27,23 @@ class SykepengevedtakListener(
         topics = ["tbd.vedtak"],
         containerFactory = "kafkaListenerContainerFactory",
     )
-    fun listen(@Payload sykepengevedtakJson: String) {
+    fun listen(@Payload sykepengevedtakJson: String, @Headers headers: MessageHeaders) {
         try {
             MDC.put(MDCConstants.MDC_CALL_ID, UUID.randomUUID().toString())
-            val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
-            sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
-            logger.info(
-                "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
-                    "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
-                    "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
-                    "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
-            )
+
+            securelogger.info("headers: ${headers.entries}")
+            if (headers.any { it.key == "type" && it.value == "VedtakFattet" }) {
+                val sykepengevedtak = objectMapper.readValue<Sykepengevedtak>(sykepengevedtakJson)
+                sykepengevedtakService.handleSykepengevedtak(sykepengevedtak)
+                logger.info(
+                    "Leser sykepengevedtak med periode: ${sykepengevedtak.fom} -  ${sykepengevedtak.tom} " +
+                        "Skjæringstidspunkt: ${sykepengevedtak.skjæringstidspunkt} " +
+                        "Sykepengegrunnlag: ${sykepengevedtak.sykepengegrunnlag} " +
+                        "GrunnlagForSykepengegrunnlag ${sykepengevedtak.grunnlagForSykepengegrunnlag}",
+                )
+            } else {
+                logger.info("Annullering hendelse lest. Ignoreres.")
+            }
         } catch (e: Exception) {
             logger.error("Feil ved håndtering av sykepengehendelse")
             throw e
