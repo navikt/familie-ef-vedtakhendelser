@@ -39,6 +39,9 @@ jobs:
     name: Deploy to dev and prod
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
     steps:
       - uses: actions/checkout@v4
       - name: Deploy til dev-gcp
