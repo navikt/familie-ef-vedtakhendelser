@@ -15,37 +15,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: deploy privat-ensligforsorger-eksterne-vedtak to dev
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: kafka-aiven/eksterne-vedtak/topic-eksterne-vedtak-dev.yaml
           PRINT_PAYLOAD: true
       - name: deploy privat-ensligforsorger-eksterne-vedtak to prod
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: prod-gcp
           RESOURCE: kafka-aiven/eksterne-vedtak/topic-eksterne-vedtak-prod.yaml
           PRINT_PAYLOAD: true
       - name: deploy sykepengevedtak-infotrygd to dev
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: kafka-aiven/sykepengevedtak-infotrygd/topic-sykepenger-infotrygd-dev.yaml
           PRINT_PAYLOAD: true
       - name: deploy sykepengevedtak-infotrygd to prod
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: prod-gcp
           RESOURCE: kafka-aiven/sykepengevedtak-infotrygd/topic-sykepenger-infotrygd-prod.yaml
           PRINT_PAYLOAD: true
       - name: deploy aivenapp-sykepenger-infotrygd-goldengate to dev
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: kafka-aiven/sykepengevedtak-infotrygd/aivenapp-sykepenger-infotrygd-goldengate-dev.yaml
           PRINT_PAYLOAD: true
       - name: deploy aivenapp-sykepenger-infotrygd-goldengate to prod
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: prod-gcp
           RESOURCE: kafka-aiven/sykepengevedtak-infotrygd/aivenapp-sykepenger-infotrygd-goldengate-prod.yaml
