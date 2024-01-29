@@ -5,6 +5,11 @@ on:
 env:
   IMAGE: ghcr.io/navikt/familie-ef-vedtakhendelse:${{ github.sha }}
 
+permissions:
+  contents: "read"
+  id-token: "write"
+  packages: "write"
+
 jobs:
   build:
     name: Build and push docker image
@@ -34,9 +39,6 @@ jobs:
     name: Deploy to dev
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: "read"
-      id-token: "write"
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v1
