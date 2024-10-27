@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.3.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -32,7 +32,7 @@
         <kotlin.version>2.0.21</kotlin.version>
         <kafka-avro-serializer.version>7.7.1</kafka-avro-serializer.version>
         <avro.version>1.12.0</avro.version>
-        <graphql-kotlin-spring-client.version>8.2.0</graphql-kotlin-spring-client.version>
+        <graphql-kotlin-spring-client.version>8.2.1</graphql-kotlin-spring-client.version>
         <graphql-kotlin-maven-plugin.version>6.5.3</graphql-kotlin-maven-plugin.version>
         <graphql-kotlin.version>3.5.0</graphql-kotlin.version>
         <ktlint-maven-plugin.version>1.7.0</ktlint-maven-plugin.version>
@@ -42,7 +42,7 @@
         <okhttp3.version>4.9.1</okhttp3.version> <!-- overskrever spring sin versjon, blir brukt av mock-oauth2-server -->
         <wiremock.version>2.35.2</wiremock.version>
         <mockk-jvm.version>1.13.13</mockk-jvm.version>
-        <testcontainers.version>1.20.2</testcontainers.version>
+        <testcontainers.version>1.20.3</testcontainers.version>
         <start-class>no.nav.familie.ef.vedtakhendelse.ApplicationKt</start-class>
     </properties>
     <dependencies>
