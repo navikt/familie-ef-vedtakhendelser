@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-env:
-  IMAGE: ghcr.io/navikt/familie-ef-vedtakhendelse:${{ github.sha }}
 
 permissions:
   contents: "read"
