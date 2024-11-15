@@ -50,6 +50,7 @@ jobs:
         env:
           CLUSTER: dev-gcp
           RESOURCE: .deploy/preprod.yaml
+          IMAGE: ${{ needs.build.outputs.image }}
       - name: Deploy til prod-gcp
         uses: nais/deploy/actions/deploy@v2
         env:
